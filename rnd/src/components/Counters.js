@@ -3,20 +3,30 @@ import Counter from './Counter';
 
 class Counters extends Component {
 
-    componentDidMount() {
-        this.getCounters();
-     }
-   
     state = {
         counters: []
-        //counters: [{ id: 1, value: 0 }, { id: 2, value: 0 }, { id: 3, value: 0 }, { id: 4, value: 0 }]
     };
 
+    constructor() {
+        super();
+        this.state.counters = this.getCounters();
+        console.log('Counters.Constructor called');
+    }
+
+    componentDidMount() {
+        console.log('Counters.componentDidMount called');
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log('Counters.componentDidUpdate called', prevState.counters.length, this.state.counters.length);
+    }
+
+    componentWillUnmount() {
+        console.log('Counters.componentWillUnmount called');
+    }
+
     getCounters = () => {
-        const counters = [{ id: 1, value: 0 }, { id: 2, value: 0 }, { id: 3, value: 0 }, { id: 4, value: 0 }];
-        this.setState({ counters });
-        console.log('getCounters is called');
-      
+        return [{ id: 1, value: 0 }, { id: 2, value: 0 }, { id: 3, value: 0 }, { id: 4, value: 0 }];
     }
 
     handleIncreaseCounter = (id) => {
@@ -33,10 +43,12 @@ class Counters extends Component {
     }
 
     handleReset = () => {
-        this.getCounters();
+        const counters = this.getCounters();
+        this.setState({ counters });
     }
 
     render() { 
+        console.log('Counters.render called');
         return (  
             <div className="mt-2">
                 <div>

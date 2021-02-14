@@ -5,22 +5,31 @@ Targets-
     > ES 6, next (next js) - In Progress
     > JSX - Done
     > React.Fragment - Done
-    > Component: Class and Function (pure component) - Done
+    > Component: Class, Function, Pure component - In Progress
     > Props - Done
+    > Prop-types
     > State - Done
     > Events - Done
     > Passing values to-from child-parent components - Done
     > event binding - Done
     > component composition - Counters -> Counter - Done
     > styling (bootstrap@4.5) - Done
-    > lifecycle
-    > hooks
-3. Routing
-5. LocalStorage
+    > If-else-loop - Done
+    > lifecycle - Mount, Update, Unmount - Done
+    > form, form-validator, form-submit (multiple) ***
+    > localStorage
+    > package.json
+    > debugging - React developer tool - chrome extension
+    > Unit test case
+4. Routing ***
+6. Ajax  ***
+3. Hooks
 5. Redux
-6. Ajax
+7. GraphQL
+8. Deployment
 
 https://babeljs.io/repl
+https://getbootstrap.com/docs/4.0/components/navbar/
 
 ==========
 Angular vs React
@@ -34,10 +43,12 @@ sudo npm i -g create-react-app //@4.0.2
 Creating 
 create-react-app rnd
 
-React developer tool - chrome extension
+
 
 vs-code extensions-
 Simple React Snippets
+React-Native/React/Redux snippets for es6/es7
+
 Prettier - Code formatter
 
 Snippets-
