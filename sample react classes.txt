@@ -1,0 +1,146 @@
+example of a simple routing class-
+
+====in index.js file===========
+import React from 'react'
+import { Route } from 'react-router'
+
+import Dashboard from '../../app/parent/Dashbaord';
+import ThankYou from '../../app/common/ThankYou';
+import Login from '../../app/merchant/Login';
+import Signup from '../../app/merchant/Signup';
+import NotFound from '../../app/common/NotFound';
+
+export default (
+  <div>
+      <Route exact path="/" component={Login}/>
+      <Route path="/login" component={Login}/>
+      <Route path="/signup" component={Signup}/>
+      <Route path="/dashboard" component={Dashboard}/>
+      <Route path="/thankyou" component={ThankYou}/>
+      <Route path="*" component={NotFound}/> {/* This should be the last one */}
+  </div>
+);
+======================================
+
+usage of routing in other component-
+---------------------------------------
+
+option 1: inline (jsx) => <a className="nav-link" href="/dashboard">My Wallet</a>
+option 2: via function => 
+
+import { browserHistory } from "react-router";
+
+gotoDashboardPage = () => {
+       browserHistory.push("/Dashboard");
+}
+
+======================================
+Example of utility class-
+---------------------------------------
+
+class utils {
+
+    static ShowError(error){
+        console.log(error);
+        alert(error);
+    }
+}
+
+export default utils;
+======================================
+usage of utility class method in other component-
+---------------------------------------
+
+import utils from "../../js/utils/utils";
+
+inside any function we can write like this - 
+utils.ShowError('Error: No merchant found');
+======================================
+
+To set global constants-
+add a js file - constants.js
+
+global.SERVER_URL = 'https://api.abc.com';
+
+And in index.js add this - import './js/utils/constants';
+======================================
+
+API call-
+========== Add a base class =========
+// npm i --save axios
+import axios from 'axios'
+
+class CommonApiUtil {
+
+  static callPostApiWithoutSessionToken(endPoint, payload) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'post', //you can set what request you want to be
+        url: global.SERVER_URL + endPoint,
+        data: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        return resolve(response.data);
+      }, (error) => {
+        return reject(error);
+      });
+    })
+  }
+
+  static callGetApi(url) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'get', //you can set what request you want to be
+        url: url
+      }).then((response) => {
+        return resolve(response.data);
+      }, (error) => {
+        return reject(error);
+      });
+    })
+  }
+
+  static callGetApiWithoutSessionToken(endPoint) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'get', //you can set what request you want to be
+        url: global.SERVER_URL + endPoint,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        return resolve(response.data);
+      }, (error) => {
+        return reject(error);
+      });
+    })
+  }
+
+}
+
+export default CommonApiUtil;
+======================================
+
+import CommonApiUtil from './common';
+
+class UserApi {
+
+static changePassword(data) {
+    return new Promise((resolve, reject) => {
+      CommonApiUtil.callPostApiWithoutSessionToken('/api/changePasswordForUser/', data).then((response) => {
+        return resolve(response);
+      }, (error) => {
+        return reject(error);
+      });
+    })
+  }
+
+}
+
+export default UserApi;
+
+======================================
+Now similarly UserApi.changePassword() method can be called from component.
+=========
