@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-//import { useHistory } from 'react-router-dom'
+import React, { Component } from 'react';
 import InventoryModel from '../models/Inventory'
-import {Link} from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 class Inventories extends Component{
     
@@ -9,14 +8,22 @@ class Inventories extends Component{
         inventories: [],
     };
 
-    componentDidMount()
+    componentWillMount()
     {
-        this.setState({
-            inventories: this.fetchDataFromAPI()
-        })
+        let inventories = [];
+        //TODO: need to fix this
+        // if (localStorage.getItem("inventories")) {
+        //     inventories = JSON.parse(localStorage.getItem("inventories"));
+        // } else {
+        //     inventories = this.fetchDataFromAPI();
+        // }
+
+        //Temp code
+        inventories = this.fetchDataFromAPI();
+        
+        this.setState({ inventories })
+        localStorage.setItem("inventories", JSON.stringify(inventories));
     }
-
-
 
     removeInventory = (id) =>{
         console.log("Request to remove id ", id);
@@ -32,17 +39,15 @@ class Inventories extends Component{
         })
     }
 
-    detailsInventory = (i)=>{
-        console.log("Request to show details of id ", i);
-        //history.push("/inventory");
-    }
-
     fetchDataFromAPI = () => {
        return  [new InventoryModel("1","Desktop","i3","HP","3","2","Tower","","10"),new InventoryModel("2","Laptop","i5","Dell","3","2","","15.6","10")];
     }
 
     render() {
         return (
+            <React.Fragment>
+            <Link className="btn btn-primary mb-2 mt-2 float-right" to="/manageinventory/add">Add</Link>
+
             <table className="table">
                 <thead>
                 <tr>
@@ -61,7 +66,7 @@ class Inventories extends Component{
             {
             this.state.inventories.map(i => {
                 return(
-                        <tr key={i.id} >
+                        <tr key={i.id}>
                             <td>{i.type}</td>
                             <td>{i.processor}</td>
                             <td>{i.brand}</td>
@@ -70,16 +75,17 @@ class Inventories extends Component{
                             <td>{i.formFactor}</td>
                             <td>{i.screenSize}</td>
                             <td>{i.quantity}</td>
-                            <td colSpan="2">
+                            <td colSpan="3">
+                                <Link className="btn btn-primary ml-2" to={`/manageinventory/view/${i.id}`}>View</Link>
+                                <Link className="btn btn-primary ml-2" to={`/manageinventory/edit/${i.id}`}>Edit</Link>
                                 <button className="btn btn-primary ml-2" onClick={() => {this.removeInventory(i.id)}}>Delete</button>
-                                <Link className="btn btn-primary ml-2" to="/Inventory" 
-                                        onClick={() => {this.detailsInventory(i)}}>Details</Link>
                             </td>
                         </tr>
                     )}
             )}
             </tbody>
-        </table>
+            </table>
+        </React.Fragment>
         );
     }
         
