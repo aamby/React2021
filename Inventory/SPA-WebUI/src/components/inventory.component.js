@@ -14,7 +14,7 @@ class Inventory extends Component {
          }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.inventories = [...JSON.parse(localStorage.getItem("inventories"))];
 
         if (window.location.href.indexOf("view") > -1) {
@@ -44,7 +44,9 @@ class Inventory extends Component {
 
     submitForm =(event) =>{
         event.preventDefault();
-        localStorage.setItem("inventories", JSON.stringify(this.state.inv));
+        let invFilter = this.inventories.filter(i => Number(i.id) != Number(this.selectedId));
+        invFilter.push(this.state.inv)
+        localStorage.setItem("inventories", JSON.stringify(invFilter));
         this.props.history.push("/");
     }
 
